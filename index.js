@@ -15,7 +15,7 @@ teamArray = []
 const validate = {
     name: input => input !== '' ? true: 'Please enter a name.',
     id: input => isNaN(input) ? 'ID must be numerical' : true,
-    email: input => input == /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ ? true : 'Please enter a valid email address.'
+    //email: input => input == /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ ? true : 'Please enter a valid email address.'
 }
 
 // writefile using inquirer prompts to user about each employee
@@ -37,7 +37,7 @@ const promptManager = () =>
             type: 'input',
             message: "What is the Manager's email?",
             name: 'email',
-            validate:validate.email
+            //validate:validate.email
         },
         {
             type: 'input',
@@ -88,7 +88,7 @@ const promptEngineer = () =>
             type: 'input',
             message: "What is the Engineer's email?",
             name: 'email',
-            validate: validate.email
+            //validate: validate.email
         },
         {
             type: 'input',
@@ -138,7 +138,7 @@ const promptIntern = () =>
             type: 'input',
             message: "What is the Intern's email?",
             name: 'email',
-            validate: validate.email
+            //validate: validate.email
         },
         {
             type: 'input',
