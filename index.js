@@ -181,8 +181,8 @@ const promptIntern = () =>
         }
     
         let teamHTML = ''
-
-        for (let employee of teamArray) {
+        // write a for of loop to replace the prompt responses into the html file
+        for (const employee of teamArray) {
             let html = Form[employee.constructor.name]
             .replace(/{ % name %})/gi, employee.name) //i is immaterial and g is a modifier is not there in regex will return first match
             .replace(/{ % id %})/gi, employee.id)
@@ -197,8 +197,23 @@ const promptIntern = () =>
                 case 'Intern':
                     html = html.replace(/{% school %}/gi, employee.school)
                 break
-            }
-        teamHTML += html
-
         }
+        teamHTML += html
     }
+    async function write(html) {
+        const file = `team.html`
+        const dir = './dist'
+        if(!fs.existsSync(dir)){
+            fs.mkdirSync(dir)
+        }
+        await writeFile(`${dir}/${file}`, html)
+        .then(() => console.log('Success!'))
+        .catch((err) => console.error(err))
+        return
+    }
+
+    const finalHTML = Form['Main'].replace(/{% employees %}/gi, teamHTML)
+    write(finalHTML)
+}
+
+promptManager()
