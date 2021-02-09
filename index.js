@@ -24,19 +24,19 @@ const promptManager = () =>
         {
             type: 'input',
             message: 'What is the name of the Team Manager?',
-            name: 'managerName',
+            name: 'name',
             validate:validate.name
         },
         {
             type: 'input',
             message: 'What is the ID Number?',
-            name: 'managerID',
+            name: 'id',
             validate:validate.id
         },
         {
             type: 'input',
             message: "What is the Manager's email?",
-            name: 'managerEmail',
+            name: 'email',
             validate:validate.email
         },
         {
@@ -55,7 +55,7 @@ const promptManager = () =>
     
     //taking the responses and adding manager to the array and prompting questions for additional team members
     .then(function(res){
-        const newManager = new Manager(res.managerName, res.managerID, res.managerEmail, res.phoneNumber)
+        const newManager = new Manager(res.name, res.id, res.email, res.phoneNumber)
         teamArray.push(newManager)
         switch(res.teamMember){
             case 'Engineer':
@@ -75,25 +75,25 @@ const promptEngineer = () =>
         {
             type: 'input',
             message: 'What is the name of the Engineer?',
-            name: 'engineerName',
+            name: 'name',
             validate: validate.name
         },
         {
             type: 'input',
             message: 'What is the ID Number?',
-            name: 'engineerID',
+            name: 'id',
             validate: validate.id
         },
         {
             type: 'input',
             message: "What is the Engineer's email?",
-            name: 'engineerEmail',
+            name: 'email',
             validate: validate.email
         },
         {
             type: 'input',
             message: "What is the Engineer's GitHub Username?",
-            name: 'engineerGitHub',
+            name: 'github',
             validate: validate.name
         },
         {
@@ -106,7 +106,7 @@ const promptEngineer = () =>
 
     // taking the engineer response and adding it to the team member array
     .then(function(res){
-        const newEngineer = new Engineer(res.engineerName, res.engineerID, res.engineerEmail, res.engineerGitHub)
+        const newEngineer = new Engineer(res.name, res.id, res.email, res.github)
         teamArray.push(newEngineer)
         switch(res.teamMember){
             case 'Engineer':
@@ -125,25 +125,25 @@ const promptIntern = () =>
         {
             type: 'input',
             message: 'What is the name of the intern?',
-            name: 'internName',
+            name: 'name',
             validate: validate.name
         },
         {
             type: 'input',
             message: 'What is the ID Number for the intern?',
-            name: 'internID',
+            name: 'id',
             validate: validate.id
         },
         {
             type: 'input',
             message: "What is the Intern's email?",
-            name: 'internEmail',
+            name: 'email',
             validate: validate.email
         },
         {
             type: 'input',
             message: "What school does the intern attend?",
-            name: 'internSchool',
+            name: 'school',
             validate: validate.name
         },
         {
@@ -154,7 +154,7 @@ const promptIntern = () =>
         }
     ])
     .then(function(res){
-        const newIntern = new Intern(res.internName, res.internID, res.internEmail, res.internSchool)
+        const newIntern = new Intern(res.name, res.id, res.email, res.school)
         teamArray.push(newIntern)
         switch(res.teamMember){
             case 'Engineer':
@@ -168,11 +168,37 @@ const promptIntern = () =>
         }
     })
 
-    async function generateHTML() {
+    const getHTMLModule = (file) => {
+        return readFile(file, 'utf8')
+    }
+
+    async function endPrompt() {
         let Form = {
             Main: await getHTMLModule('./src/main.html'),
             Manager: await getHTMLModule('./src/manager.html'),
             Engineer: await getHTMLModule('./src/engineer.html'),
             Intern: await getHTMLModule('./src/intern.html')
+        }
+    
+        let teamHTML = ''
+
+        for (let employee of teamArray) {
+            let html = Form[employee.constructor.name]
+            .replace(/{ % name %})/gi, employee.name) //i is immaterial and g is a modifier is not there in regex will return first match
+            .replace(/{ % id %})/gi, employee.id)
+            .replace(/{ % email %})/gi, employee.email)
+            switch(employee.constructor.name) {
+                case 'Manager':
+                    html = html.replace(/{% phoneNumber %}/gi, employee.phoneNumber)
+                    break
+                case 'Engineer':
+                    html = html.replace(/{% github %}/gi, employee.github)
+                    break
+                case 'Intern':
+                    html = html.replace(/{% school %}/gi, employee.school)
+                break
+            }
+        teamHTML += html
+
         }
     }
