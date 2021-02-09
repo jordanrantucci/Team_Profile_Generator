@@ -119,3 +119,60 @@ const promptEngineer = () =>
                 endPrompt()
         }
     })
+// prompt of questions for the Intern
+const promptIntern = () => 
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the name of the intern?',
+            name: 'internName',
+            validate: validate.name
+        },
+        {
+            type: 'input',
+            message: 'What is the ID Number for the intern?',
+            name: 'internID',
+            validate: validate.id
+        },
+        {
+            type: 'input',
+            message: "What is the Intern's email?",
+            name: 'internEmail',
+            validate: validate.email
+        },
+        {
+            type: 'input',
+            message: "What school does the intern attend?",
+            name: 'internSchool',
+            validate: validate.name
+        },
+        {
+            type: 'list',
+            message: 'Which team member would you like to add?',
+            choices: ['Engineer', 'Intern', 'My team is complete'],
+            name: 'teamMember'
+        }
+    ])
+    .then(function(res){
+        const newIntern = new Intern(res.internName, res.internID, res.internEmail, res.internSchool)
+        teamArray.push(newIntern)
+        switch(res.teamMember){
+            case 'Engineer':
+                promptEngineer()
+                break
+            case 'Intern':
+                promptIntern()
+                break
+            case 'My team is complete':
+                endPrompt()
+        }
+    })
+
+    async function generateHTML() {
+        let Form = {
+            Main: await getHTMLModule('./src/main.html'),
+            Manager: await getHTMLModule('./src/manager.html'),
+            Engineer: await getHTMLModule('./src/engineer.html'),
+            Intern: await getHTMLModule('./src/intern.html')
+        }
+    }
