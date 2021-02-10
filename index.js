@@ -8,6 +8,7 @@ const Intern = require('./lib/Intern.js')
 const Manager = require('./lib/Manager.js')
 const ExpandPrompt = require('inquirer/lib/prompts/expand')
 
+const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
 
 teamArray = []
@@ -184,9 +185,9 @@ const promptIntern = () =>
         // write a for of loop to replace the prompt responses into the html file
         for (const employee of teamArray) {
             let html = Form[employee.constructor.name]
-            .replace(/{ % name %})/gi, employee.name) //i is immaterial and g is a modifier is not there in regex will return first match
-            .replace(/{ % id %})/gi, employee.id)
-            .replace(/{ % email %})/gi, employee.email)
+            .replace(/{% name %}/gi, employee.name) //i is immaterial and g is a modifier is not there in regex will return first match
+            .replace(/{% id %}/gi, employee.id)
+            .replace(/{% email %}/gi, employee.email)
             switch(employee.constructor.name) {
                 case 'Manager':
                     html = html.replace(/{% phoneNumber %}/gi, employee.phoneNumber)
