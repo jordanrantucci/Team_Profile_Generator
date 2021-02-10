@@ -28,7 +28,13 @@ node.js, NPMs: inquirer and jest
 
 ## Usage
 The project is used for generating a Team of Employees
-![Alt Text](assets/demo.gif)
+![Alt Text](assets/node.gif)
+
+My Tests
+![Alt Text](assets/tests.gif)
+
+Deployed Site
+![Alt Text](assets/myteam.jpg)
 
 ## Contributions
 Jordan Rantucci
