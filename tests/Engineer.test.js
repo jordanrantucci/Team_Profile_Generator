@@ -36,7 +36,7 @@ describe('Engineer', () => {
             it('should return the employee role', () => {
                 const newEngineer = new Engineer('Joe', '2', 'joe@email.com', 'joeengineer')
                 newEmployee.getRole()
-                expect(newEmployee.role).toEqual('Employee')
+                expect(newEngineer.role).toEqual('Engineer')
             })
         })
     })
