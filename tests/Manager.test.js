@@ -28,7 +28,7 @@ describe('Manager', () => {
             describe('number', () => {
                 it('should set the phone number', () => {
                     const newManager = new Manager('Diane', '4', 'Diane@email.com', '555-123-4567')
-                    expect(newManager.number).toEqual('555-123-4567')
+                    expect(newManager.phoneNumber).toEqual('555-123-4567')
                 })
             })
         })
